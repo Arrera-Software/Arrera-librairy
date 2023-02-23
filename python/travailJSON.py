@@ -13,6 +13,11 @@ def lectureJSON(file,flag): # Permet de lire la valeur du flag defini a l'appel 
         dict = json.load(openfile)[flag]
     return str(dict)
 
+def lectureJSONDict(file,flag): # Permet de lire la valeur du flag defini a l'appel de la fonction et de le retourner sous forme de dictionnaire
+    with open(file, 'r') as openfile:
+        dict = json.load(openfile)[flag]
+    return dict
+
 def lectureSimpleJSON(file):#Permet de juste recuperer le contenu d'un fichier JSON
     with open(file, 'r') as openfile:
         dict = json.load(openfile)

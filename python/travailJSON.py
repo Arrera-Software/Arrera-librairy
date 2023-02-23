@@ -38,6 +38,10 @@ def EcritureSansEcrasement(file,vardict,newDictName):#Permet d'ecrire un nouveau
         newdict = {newDictName : vardict} 
         alldict = dict(dict1,**newdict)
         json.dump(alldict,file,indent=2)
+        
+def EcritureEcrasement(file,dictionnaire):#Permet d'ecrire dans un json en efacent son contenue
+    with open(file, "w") as f:
+        json.dump(dictionnaire, f,indent=2)
 
 def compteurJSON(file):#Permet de compter le nombre de valeur dans un dictionnaire
     with open(file, 'r') as openfile:

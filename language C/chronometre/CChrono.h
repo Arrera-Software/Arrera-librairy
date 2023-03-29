@@ -4,8 +4,8 @@ class CChrono
 {
 private :
 	bool etat;
-	float clockStart;
-	float clockStop;
+	unsigned long clockStart;
+	unsigned long clockStop;
 public :
 	CChrono();
 	~CChrono();
@@ -13,6 +13,6 @@ public :
 	bool Stop();
 	bool Reset();
 	void lireTemps(unsigned short* h, int* mn, int* s, int* c);
-	bool lireTemps(char* temp, int* taille);
+	bool lireTemps(char* temp, int taille);
 };
 

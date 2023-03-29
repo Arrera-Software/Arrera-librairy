@@ -28,9 +28,7 @@ bool CChrono::Start()
 		return false;
 	}
 }
-	
 bool CChrono::Stop()
-
 {
 	if (etat == true)
 	{
@@ -42,15 +40,19 @@ bool CChrono::Stop()
 	{
 		return false;
 	}
-	
 }
 bool CChrono::Reset()
 {
-	clockStart = 0;
-	clockStop = 0;
-	etat = false;
-	return true;
-
+	if (etat == false) 
+	{
+		clockStart = 0;
+		clockStop = 0;
+		return true;
+	}
+	else 
+	{
+		return false;
+	}
 }
 void CChrono::lireTemps(unsigned short* h, int* mn, int* s, int* c)
 {
@@ -58,69 +60,46 @@ void CChrono::lireTemps(unsigned short* h, int* mn, int* s, int* c)
 	float fCentieme;
 	if (etat == true)
 	{
-		fCentieme = ( clock() - clockStart) / CLOCKS_PER_SEC;
-		secondes = fCentieme;
-		iCentiemes = (fCentieme - secondes) * 100;
+		fCentieme = (float)( clock() - clockStart) / CLOCKS_PER_SEC;
 	}
 	else
 	{
-		if (etat == false)
-		{
-			fCentieme = (clockStop - clockStart) / CLOCKS_PER_SEC;
-			secondes = fCentieme;
-			iCentiemes = (fCentieme - secondes) * 100;
-		}
-
+		fCentieme = (float)(clockStop - clockStart) / CLOCKS_PER_SEC;
 	}
+	secondes = (int)fCentieme;
+	iCentiemes = (int)((fCentieme - secondes) * 100);
 	*h = secondes / 3600;
 	*mn = (secondes % 3600) / 60;
 	*s = secondes % 60;
 	*c = iCentiemes;
 
 }
-bool CChrono::lireTemps(char* temp, int* taille)
-
+bool CChrono::lireTemps(char* temp, int taille)
 {
 	int secondes;
-	int minutes, heures, jours, iCentiemes,i;
+	int minutes, heures, iCentiemes;
 	float fCentieme;
-	char chaine[12];
-	if (*taille >= 11) 
-	{
-		if (etat == true)
-		{
-			fCentieme = (clock() - clockStart) / CLOCKS_PER_SEC;
-			secondes = fCentieme;
-			iCentiemes = (fCentieme - secondes) * 100;
-			heures = secondes / 3600;
-			minutes = (secondes % 3600) / 60;
-			secondes = secondes % 60;
-		}
-		else
-		{
-			if (etat == false)
-			{
-				fCentieme = (clockStop - clockStart) / CLOCKS_PER_SEC;
-				secondes = fCentieme;
-				iCentiemes = (fCentieme - secondes) * 100;
-				heures = secondes / 3600;
-				minutes = (secondes % 3600) / 60;
-				secondes = secondes % 60;
-			}
 
-		}
-		sprintf_s(chaine, "%d:%d:%d.%d", heures, minutes, secondes, iCentiemes);
-		for (i = 0; i <= 11; i++)
-		{
-			temp[i] = chaine[i];
-		}
-		temp[i] = '\0';
-		
-		return true;
+	if (etat == true)
+	{
+		fCentieme = (float)(clock() - clockStart) / CLOCKS_PER_SEC;
 	}
 	else
 	{
-		return false;
+		fCentieme = (float)(clockStop - clockStart) / CLOCKS_PER_SEC;
 
+	}
+	secondes = (int)fCentieme;
+	iCentiemes = (int)((fCentieme - secondes) * 100);
+	heures = secondes / 3600;
+	minutes = (secondes % 3600) / 60;
+	secondes = secondes % 60;
+	if (sprintf_s(temp, taille,"%d:%d:%d.%d", heures, minutes, secondes, iCentiemes)==-1)
+	{
+		return false;
+	}
+	else
+	{
+		return true;
 	}
 }
